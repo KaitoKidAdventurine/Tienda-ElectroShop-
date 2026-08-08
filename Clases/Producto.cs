@@ -1,19 +1,23 @@
-abstract class Producto
+using System;
+using TiendaElectroShop.Enum;
+
+namespace TiendaElectroShop.Clases
+{
+    abstract class Producto
 {
     protected int id;
     protected string nombre;
     protected double precio;
-    protected Categoria categoria;
-
+    protected CategoriaProducto categoria;
     protected int cantidad;
 
-        protected Producto(int id, string nombre, double precio, Categoria categoria, int cantidad)
+    protected Producto(int id, string nombre, double precio, CategoriaProducto categoria, int cantidad)
     {
         Id = id;
         Nombre = nombre;
         Precio = precio;
         Categoria = categoria;
-        cantidad = cantidad
+        this.cantidad = cantidad;
     }
 
     public int Id
@@ -51,20 +55,28 @@ abstract class Producto
         }
     }
 
-    public Categoria Categoria
+    public CategoriaProducto Categoria
     {
         get { return categoria; }
         set
         {
-            if (!Enum.IsDefined(typeof(Categoria), value))
+            if (!System.Enum.IsDefined(typeof(CategoriaProducto), value))
                 throw new ArgumentException("La categoría no es válida.");
             categoria = value;
         }
     }
-    public void MostrarInformacion()
+    
+    public int Cantidad
     {
-        Console.WriteLine($"ID: {Id}, Nombre: {Nombre}, Precio: {Precio}, Categoría: {Categoria}");
+        get { return cantidad; }
+        set
+        {
+            if (value < 0)
+                throw new ArgumentException("La cantidad no puede ser negativa.");
+            cantidad = value;
+        }
     }
-
-
+    
+        public abstract string DescripcionProductos();
+    }
 }
