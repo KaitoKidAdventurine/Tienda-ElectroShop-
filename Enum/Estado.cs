@@ -1,7 +1,9 @@
-public enum Estado
+namespace TiendaElectroShop.Enum
+{
+    public enum Estado
 {
     Pendiente,
     Enviado,
-    Entregado
-
+        Entregado
+    }
 }
