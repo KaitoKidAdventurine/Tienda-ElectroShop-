@@ -1,31 +1,64 @@
-class Pedido
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using TiendaElectroShop.Enum;
+
+namespace TiendaElectroShop.Clases
 {
-    
-    //Campos
-    private int nroPedido;
-    private DateTime fecha;
-    private Cliente cliente;
-    private List<Producto> productos;
-
-    private Estado estado;
-
-    public Pedido(int nro, Cliente cli)
+    class Pedido
     {
-        this.nroPedido = nro;
-        fecha = DateTime.Now; 
-        this.cliente = cli;
-        this.productos = new List<Producto>();
-    }
-    
-    public void addProducto(Producto p)
-    {
-        this.productos.Add(p);
-    }
+        private int nroPedido;
+        private DateTime fecha;
+        private int idUsuario;
+        private List<Producto> productos;
+        private Estado estado;
 
-    public void removeProducto(Producto p)
-    {
-        this.productos.Remove(p);
+        // Evento para notificar entrega
+        public event Action<Pedido, Tienda> PedidoEntregado;
+
+        public Pedido(int nro, int idUsuario)
+        {
+            this.nroPedido = nro;
+            fecha = DateTime.Now;
+            this.idUsuario = idUsuario;
+            this.productos = new List<Producto>();
+            this.estado = Estado.Pendiente;
+        }
+
+        public int NroPedido { get { return nroPedido; } }
+        public DateTime Fecha { get { return fecha; } }
+        public int IdUsuario { get { return idUsuario; } }
+        public List<Producto> Productos { get { return productos; } }
+        public Estado Estado { get { return estado; } }
+
+        public void AddProducto(Producto p)
+        {
+            this.productos.Add(p);
+        }
+
+        public void RemoveProducto(Producto p)
+        {
+            this.productos.Remove(p);
+        }
+
+        public double GetTotal() => productos.Sum(p => p.Precio);
+
+        // Cambia el estado del pedido
+        public void CambiarEstado(Estado nuevoEstado, Tienda tienda)
+        {
+            Estado estadoAnterior = estado;
+            estado = nuevoEstado;
+
+
+            if (nuevoEstado == Estado.Entregado && estadoAnterior != Estado.Entregado)
+            {
+                OnPedidoEntregado(tienda);
+            }
+        }
+
+        protected virtual void OnPedidoEntregado(Tienda tienda)
+        {
+            PedidoEntregado?.Invoke(this, tienda);
+        }
     }
-    
-    public double getTotal() => productos => productos.Sum(p => p.Precio);
 }
