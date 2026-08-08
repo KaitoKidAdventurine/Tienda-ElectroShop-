@@ -1,6 +1,17 @@
-class ProductoFisico : Producto
+using TiendaElectroShop.Enum;
+
+namespace TiendaElectroShop.Clases
+{
+    class ProductoFisico : Producto
 {
     private double peso;
+    
+    public ProductoFisico(int id, string nombre, double precio, CategoriaProducto categoria, int cantidad, double peso)
+        : base(id, nombre, precio, categoria, cantidad) 
+    {
+        this.peso = peso;
+    }
+
     public double Peso
     {
         get { return peso; }
@@ -11,16 +22,10 @@ class ProductoFisico : Producto
             peso = value;
         }
     }
-    
-    public ProductoFisico(int id, string nombre, double precio, string categoria, int cantidad, double peso)
-    : base(id, nombre, precio, categoria, cantidad) 
-    {
-        this.peso = peso;
-    }
 
-    public override void descripcionProductos()
+    public override string DescripcionProductos()
     {
-        base.MostrarInformacion();
-        Console.WriteLine($"Peso: {peso} kg");
+        return $"Producto Físico: {Nombre} (ID: {Id}) - Precio: ${Precio} - Categoría: {Categoria} - Peso: {peso} kg - Stock: {Cantidad}";
+        }
     }
 }
