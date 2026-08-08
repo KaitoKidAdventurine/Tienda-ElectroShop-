@@ -1,16 +1,31 @@
-class ProductoDigital : Producto
+using TiendaElectroShop.Enum;
+
+namespace TiendaElectroShop.Clases
 {
-    private double tamannoDeDescarga;
-
-    public ProductoDigital(int id, string nombre, double precio, string categoria, int cantidad,double tamannoDeDescarga)
-    : base(id, nombre, precio, categoria, cantidad) 
+    class ProductoDigital : Producto
     {
-        this.tamannoDeDescarga = tamannoDeDescarga;
-    }
+        private double tamannoDeDescarga;
 
-    public override string descripcionProductos()
-    {
-        Console.WriteLine("ProductoDigital: " + base.MostrarInformacion() + 
-        " Tamaño de descarga: " + tamannoDeDescarga);
+        public ProductoDigital(int id, string nombre, double precio, CategoriaProducto categoria, int cantidad, double tamannoDeDescarga)
+            : base(id, nombre, precio, categoria, cantidad)
+        {
+            this.tamannoDeDescarga = tamannoDeDescarga;
+        }
+
+        public double TamannoDeDescarga
+        {
+            get { return tamannoDeDescarga; }
+            set
+            {
+                if (value < 0)
+                    throw new ArgumentException("El tamaño de descarga no puede ser negativo.");
+                tamannoDeDescarga = value;
+            }
+        }
+
+        public override string DescripcionProductos()
+        {
+            return $"Producto Digital: {Nombre} (ID: {Id}) - Precio: ${Precio} - Categoría: {Categoria} - Tamaño: {tamannoDeDescarga} MB - Stock: {Cantidad}";
+        }
     }
 }
