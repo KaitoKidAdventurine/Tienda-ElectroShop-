@@ -1,4 +1,6 @@
-public enum CategoriaProducto
+namespace TiendaElectroShop.Enum
+{
+    public enum CategoriaProducto
 {
     Electronica,        // Televisores, audífonos, parlantes, cables
     Informatica,        // Laptops, monitores, teclados, mouse, discos duros
@@ -12,5 +14,6 @@ public enum CategoriaProducto
     Salud,              // Suplementos, equipos médicos, vitaminas
     Ropa,               // Prendas de vestir, calzado
     Alimentos,          // Comida envasada, bebidas (si la tienda vende)
-    Servicios           // Instalaciones, garantías extendidas o soporte técnico
+        Servicios           // Instalaciones, garantías extendidas o soporte técnico
+    }
 }
